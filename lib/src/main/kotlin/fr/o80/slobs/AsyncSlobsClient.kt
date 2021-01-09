@@ -1,6 +1,7 @@
 package fr.o80.slobs
 
 import fr.o80.slobs.model.Scene
+import fr.o80.slobs.model.Source
 import fr.o80.slobs.model.event.SceneSwitched
 import fr.o80.slobs.ws.WebService
 import kotlinx.coroutines.channels.Channel
@@ -38,6 +39,22 @@ class AsyncSlobsClient(
             }
 
             continuation.resume(scenes)
+        }
+    }
+
+    override suspend fun getSources(): List<Source> = suspendCoroutine { continuation ->
+        ws.request("AudioService", "getSourcesForCurrentScene") { result ->
+            val sources = (result as JsonArray).map {
+                val jsonObject = (it as JsonObject)
+                Source(
+                    resourceId = jsonObject.getString("resourceId"),
+                    sourceId = jsonObject.getString("sourceId"),
+                    name = jsonObject.getString("name"),
+                    muted = jsonObject.getBoolean("muted")
+                )
+            }
+
+            continuation.resume(sources)
         }
     }
 

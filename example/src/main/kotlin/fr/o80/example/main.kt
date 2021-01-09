@@ -20,7 +20,14 @@ suspend fun main(vararg args: String) = coroutineScope {
         }
     }
 
+    val sources = slobs.getSources()
     val scenes = slobs.getScenes()
+
+    println("============================")
+    println("Sources: ${sources.joinToString { it.name }}")
+    println("Scenes: ${scenes.joinToString { it.name }}")
+    println("============================")
+
     scenes.forEach { scene ->
         println(scene.name)
         slobs.switchTo(scene)
