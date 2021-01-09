@@ -2,9 +2,8 @@ package fr.o80.example
 
 import fr.o80.slobs.SlobClient
 import fr.o80.slobs.AsyncSlobsClient
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.consumeEach
 
 suspend fun main(vararg args: String) = coroutineScope {
     val slobs: SlobClient = AsyncSlobsClient(
@@ -14,13 +13,20 @@ suspend fun main(vararg args: String) = coroutineScope {
     )
 
     slobs.connect()
-    val scenes = slobs.getScenes()
-    println("Scenes: ${scenes.joinToString { it.name }}")
 
+    launch {
+        slobs.onSceneSwitched().consumeEach { scene ->
+            println("On scene switched: ${scene.name}")
+        }
+    }
+
+    val scenes = slobs.getScenes()
     scenes.forEach { scene ->
+        println(scene.name)
         slobs.switchTo(scene)
         delay(500)
     }
+
 
     println("Connected")
 }

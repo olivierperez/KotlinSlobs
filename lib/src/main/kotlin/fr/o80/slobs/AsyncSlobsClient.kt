@@ -3,7 +3,8 @@ package fr.o80.slobs
 import fr.o80.slobs.model.Scene
 import fr.o80.slobs.model.event.SceneSwitched
 import fr.o80.slobs.ws.WebService
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
 import java.net.URI
 import javax.json.JsonArray
 import javax.json.JsonObject
@@ -26,8 +27,8 @@ class AsyncSlobsClient(
     }
 
     override suspend fun getScenes(): List<Scene> = suspendCoroutine { continuation ->
-        ws.request("ScenesService", "getScenes") { answer ->
-            val scenes = (answer.result as JsonArray).map {
+        ws.request("ScenesService", "getScenes") { result ->
+            val scenes = (result as JsonArray).map {
                 val jsonObject = it as JsonObject
                 Scene(
                     id = jsonObject.getString("id"),
@@ -46,7 +47,18 @@ class AsyncSlobsClient(
         }
     }
 
-    override suspend fun onSceneSwitched(): Flow<SceneSwitched> {
-        TODO("Not yet implemented")
+    override suspend fun onSceneSwitched(): ReceiveChannel<SceneSwitched> {
+        val channel = Channel<SceneSwitched>()
+
+        ws.listen("EVENT", "ScenesService.sceneSwitched") { data ->
+            val event = SceneSwitched(data.getString("id"), data.getString("name"))
+            channel.send(event)
+        }
+
+        ws.request("ScenesService", "sceneSwitched") {
+            println("Subscribed: ${(it as JsonObject).getString("resourceId")}")
+        }
+
+        return channel
     }
 }

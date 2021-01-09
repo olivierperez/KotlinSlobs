@@ -21,7 +21,7 @@ dependencies {
     implementation("org.springframework:spring-websocket:5.2.2.RELEASE")
     implementation("org.springframework:spring-messaging:5.2.2.RELEASE")
 
-    implementation("org.glassfish:javax.json:1.0.1")
+    implementation("org.glassfish:javax.json:1.1.4")
     implementation("com.fasterxml.jackson.core:jackson-core:2.4.0")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.4.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.4.0")
