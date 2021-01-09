@@ -23,11 +23,14 @@ suspend fun main(vararg args: String) = coroutineScope {
     val activeScene = slobs.getActiveScene()
     val sources = slobs.getSources()
     val scenes = slobs.getScenes()
+    val performance = slobs.getPerformance()
 
     println("============================")
     println("Active scene: ${activeScene.name}")
     println("Sources: ${sources.joinToString { it.name }}")
     println("Scenes: ${scenes.joinToString { it.name }}")
+    println("----------------------------")
+    println("Performance : $performance")
     println("============================")
 
     slobs.muteSource(sources[0], true)

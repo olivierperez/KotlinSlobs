@@ -1,5 +1,6 @@
 package fr.o80.slobs
 
+import fr.o80.slobs.model.Performance
 import fr.o80.slobs.model.Scene
 import fr.o80.slobs.model.Source
 import fr.o80.slobs.model.event.SceneSwitched
@@ -59,6 +60,12 @@ class AsyncSlobsClient(
     override suspend fun getActiveScene(): Scene = suspendCoroutine { continuation ->
         ws.request("ScenesService", "activeScene") {
             continuation.resume(it!!.toScene())
+        }
+    }
+
+    override suspend fun getPerformance(): Performance = suspendCoroutine { continuation ->
+        ws.request("PerformanceService", "getModel") {
+            continuation.resume(it!!.toPerformance())
         }
     }
 

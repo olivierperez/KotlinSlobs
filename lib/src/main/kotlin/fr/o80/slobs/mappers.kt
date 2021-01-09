@@ -1,8 +1,20 @@
 package fr.o80.slobs
 
+import fr.o80.slobs.model.Performance
 import fr.o80.slobs.model.Scene
 import javax.json.JsonObject
 import javax.json.JsonValue
+
+internal fun JsonValue.toPerformance(): Performance {
+    val jsonObject = this as JsonObject
+    return Performance(
+        cpu = jsonObject.getJsonNumber("CPU").bigDecimalValue().toFloat(),
+        bandwidth = jsonObject.getInt("bandwidth"),
+        frameRate = jsonObject.getJsonNumber("frameRate").bigDecimalValue().toFloat(),
+        numberDroppedFrames = jsonObject.getInt("numberDroppedFrames"),
+        percentageDroppedFrames = jsonObject.getInt("percentageDroppedFrames")
+    )
+}
 
 internal fun JsonValue.toScene(): Scene {
     val jsonObject = this as JsonObject
