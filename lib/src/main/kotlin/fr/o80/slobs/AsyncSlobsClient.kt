@@ -29,15 +29,7 @@ class AsyncSlobsClient(
 
     override suspend fun getScenes(): List<Scene> = suspendCoroutine { continuation ->
         ws.request("ScenesService", "getScenes") { result ->
-            val scenes = (result as JsonArray).map {
-                val jsonObject = it as JsonObject
-                Scene(
-                    id = jsonObject.getString("id"),
-                    resourceId = jsonObject.getString("resourceId"),
-                    name = jsonObject.getString("name"),
-                )
-            }
-
+            val scenes = (result as JsonArray).map { it.toScene() }
             continuation.resume(scenes)
         }
     }
@@ -61,6 +53,12 @@ class AsyncSlobsClient(
     override suspend fun muteSource(source: Source, muted: Boolean) = suspendCoroutine<Unit> { continuation ->
         ws.request("SourcesService", "setMuted", arrayOf(source.sourceId, muted)) {
             continuation.resume(Unit)
+        }
+    }
+
+    override suspend fun getActiveScene(): Scene = suspendCoroutine { continuation ->
+        ws.request("ScenesService", "activeScene") {
+            continuation.resume(it!!.toScene())
         }
     }
 
