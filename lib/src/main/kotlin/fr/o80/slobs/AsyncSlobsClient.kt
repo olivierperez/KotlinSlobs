@@ -37,16 +37,7 @@ class AsyncSlobsClient(
 
     override suspend fun getSources(): List<Source> = suspendCoroutine { continuation ->
         ws.request("AudioService", "getSourcesForCurrentScene") { result ->
-            val sources = (result as JsonArray).map {
-                val jsonObject = (it as JsonObject)
-                Source(
-                    resourceId = jsonObject.getString("resourceId"),
-                    sourceId = jsonObject.getString("sourceId"),
-                    name = jsonObject.getString("name"),
-                    muted = jsonObject.getBoolean("muted")
-                )
-            }
-
+            val sources = (result as JsonArray).map { it!!.toSource() }
             continuation.resume(sources)
         }
     }
