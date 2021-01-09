@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger
 import javax.json.JsonValue
 import javax.websocket.Session
 
-typealias AnswerCallback = (JsonValue) -> Unit
+typealias AnswerCallback = (JsonValue?) -> Unit
 
 class Messenger(private val session: Session) {
 
@@ -19,7 +19,7 @@ class Messenger(private val session: Session) {
         session.asyncRemote.sendText(toSend)
     }
 
-    fun onMessage(id: Int, result: JsonValue) {
+    fun onMessage(id: Int, result: JsonValue?) {
         callbacks[id]?.let { callback ->
             callback(result)
             callbacks.remove(id)

@@ -58,6 +58,12 @@ class AsyncSlobsClient(
         }
     }
 
+    override suspend fun muteSource(source: Source, muted: Boolean) = suspendCoroutine<Unit> { continuation ->
+        ws.request("SourcesService", "setMuted", arrayOf(source.sourceId, muted)) {
+            continuation.resume(Unit)
+        }
+    }
+
     override suspend fun switchTo(scene: Scene) = suspendCoroutine<Unit> { continuation ->
         ws.request("ScenesService", "makeSceneActive", arrayOf(scene.id)) {
             continuation.resume(Unit)

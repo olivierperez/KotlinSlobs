@@ -28,10 +28,12 @@ suspend fun main(vararg args: String) = coroutineScope {
     println("Scenes: ${scenes.joinToString { it.name }}")
     println("============================")
 
+    slobs.muteSource(sources[0], true)
+
     scenes.forEach { scene ->
         println(scene.name)
         slobs.switchTo(scene)
-        delay(500)
+        delay(200)
     }
 
 

@@ -27,15 +27,21 @@ class WebService(
     fun request(
         resourceId: String,
         methodName: String,
-        args: Array<String>? = null,
-        callback: (JsonValue) -> Unit
+        args: Array<Any>? = null,
+        callback: (JsonValue?) -> Unit
     ) {
         val argsStr = args?.let {
-            """, \"args\":${args.joinToString("\\\",\\\"", prefix = "[\\\"", postfix = "\\\"]")}"""
+            val argsValue = args.joinToString(",", prefix = "[", postfix = "]") {
+                when (it) {
+                    is String -> """\"$it\""""
+                    else -> it.toString()
+                }
+            }
+            """, \"args\":$argsValue"""
         } ?: ""
 
         val payload =
-            """["{\"jsonrpc\": \"2.0\", \"id\": \"#ID#\", \"method\": \"$methodName\", \"params\": {\"resource\": \"$resourceId\" $argsStr}, \"compactMode\": true}"]"""
+            """["{\"jsonrpc\": \"2.0\", \"id\": \"#ID#\", \"method\": \"$methodName\", \"params\": {\"resource\": \"$resourceId\" $argsStr}}"]"""
 
         messenger.sendText(payload, callback)
     }
@@ -80,7 +86,7 @@ class WebService(
 
     private fun requestAuthentication() {
         messenger.sendText(prepareAuthRequest(token)) { result ->
-            val connected = (result.valueType) == JsonValue.ValueType.TRUE
+            val connected = (result!!.valueType) == JsonValue.ValueType.TRUE
             if (connected) {
                 connectionDeferred?.complete(Unit)
             } else {
@@ -103,7 +109,7 @@ class WebService(
                 val response = jsonReader.readObject()
                 val jsonrpc = response.getString("jsonrpc")
                 val id = if (response.isNull("id")) null else response.getString("id")?.toInt()
-                val result = response["result"]!!
+                val result = response["result"]
 
                 Answer(jsonrpc, id, result)
             }
