@@ -2,6 +2,10 @@
 
 Kotlin coroutine API for Streamlabs OBS.
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
+[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-orange.svg?style=flat-square)](http://makeapullrequest.com)
+[![Last release](https://jitpack.io/v/olivierperez/KotlinSlobs.svg?style=flat-square)](https://jitpack.io/#olivierperez/KotlinSlobs)
+
 ## 🎯 Examples
 
 ```kotlin
