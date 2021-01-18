@@ -1,8 +1,13 @@
 plugins {
-    kotlin("jvm")
+    maven
+    kotlin("jvm") version "1.4.21"
 }
 
 group = "fr.o80.slobs"
+
+repositories {
+    mavenCentral()
+}
 
 dependencies {
     implementation(kotlin("stdlib"))
