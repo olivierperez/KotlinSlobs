@@ -66,7 +66,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.olivierperez.TwitckBot:lib:1.0")
+    implementation("com.github.olivierperez.KotlinSlobs:lib:1.0")
 }
 ```
 
