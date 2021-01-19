@@ -37,7 +37,7 @@ suspend fun main(vararg args: String) = coroutineScope {
 
     scenes.forEach { scene ->
         println(scene.name)
-        slobs.switchTo(scene)
+        slobs.switchTo(scene.id)
         delay(200)
     }
 

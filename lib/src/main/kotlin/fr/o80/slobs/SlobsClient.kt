@@ -10,7 +10,7 @@ interface SlobsClient {
     suspend fun connect()
     suspend fun getActiveScene(): Scene
     suspend fun getScenes(): List<Scene>
-    suspend fun switchTo(scene: Scene)
+    suspend fun switchTo(sceneId: String)
     suspend fun getSources(): List<Source>
     suspend fun muteSource(source: Source, muted: Boolean)
     suspend fun onSceneSwitched(): ReceiveChannel<SceneSwitched>
