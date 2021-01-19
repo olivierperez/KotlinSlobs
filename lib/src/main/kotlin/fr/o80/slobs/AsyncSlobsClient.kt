@@ -15,9 +15,9 @@ import kotlin.coroutines.suspendCoroutine
 
 class AsyncSlobsClient(
     address: String,
-    port: String,
+    port: Int,
     token: String
-) : SlobClient {
+) : SlobsClient {
 
     private val ws = WebService(
         URI.create("ws://$address:$port/api/123/abcdefgh/websocket"),

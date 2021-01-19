@@ -6,7 +6,7 @@ import fr.o80.slobs.model.Source
 import fr.o80.slobs.model.event.SceneSwitched
 import kotlinx.coroutines.channels.ReceiveChannel
 
-interface SlobClient {
+interface SlobsClient {
     suspend fun connect()
     suspend fun getActiveScene(): Scene
     suspend fun getScenes(): List<Scene>

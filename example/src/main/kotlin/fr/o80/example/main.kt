@@ -1,14 +1,14 @@
 package fr.o80.example
 
-import fr.o80.slobs.SlobClient
+import fr.o80.slobs.SlobsClient
 import fr.o80.slobs.AsyncSlobsClient
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.consumeEach
 
 suspend fun main(vararg args: String) = coroutineScope {
-    val slobs: SlobClient = AsyncSlobsClient(
+    val slobs: SlobsClient = AsyncSlobsClient(
         args[0],
-        args[1],
+        args[1].toInt(),
         args[2]
     )
 
