@@ -11,8 +11,8 @@ Kotlin coroutine API for Streamlabs OBS.
 ```kotlin
 suspend fun main() = coroutineScope {
     val slobs: SlobClient = AsyncSlobsClient(
-        "127.0.0.1",
-        "59650",
+        "127.0.0.1", 
+        59650,
         "<YOUR TOKEN HERE>"
     )
 

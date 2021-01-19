@@ -60,8 +60,8 @@ class AsyncSlobsClient(
         }
     }
 
-    override suspend fun switchTo(scene: Scene) = suspendCoroutine<Unit> { continuation ->
-        ws.request("ScenesService", "makeSceneActive", arrayOf(scene.id)) {
+    override suspend fun switchTo(sceneId: String) = suspendCoroutine<Unit> { continuation ->
+        ws.request("ScenesService", "makeSceneActive", arrayOf(sceneId)) {
             continuation.resume(Unit)
         }
     }
